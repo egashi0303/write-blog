@@ -1,0 +1,43 @@
+{
+  "mvp_scope": "article_to_canva_single_thumbnail_background",
+  "template_policy": {
+    "name": "thumbnail_no_text_template",
+    "must_use_every_time": true,
+    "preferred_canva_design_type": "desktop_wallpaper",
+    "reject_if_any_readable_text_appears": true
+  },
+  "source_article": "",
+  "case_id": "",
+  "case_name": "",
+  "source_title": "",
+  "canva_design_type": "desktop_wallpaper",
+  "canva_job_id": "",
+  "generated_candidate_count": 0,
+  "selected_policy": "first_candidate_for_mvp",
+  "selected_candidate_id": "",
+  "selected_candidate_preview_url": "",
+  "selected_candidate_thumbnail_url": "",
+  "created_design": {
+    "id": "",
+    "title": "",
+    "edit_url": "",
+    "view_url": "",
+    "page_count": 0
+  },
+  "download_status": "not_started",
+  "local_download_path": "",
+  "drive_upload": {
+    "folder_id": "",
+    "folder_name": "",
+    "folder_url": "",
+    "file_id": "",
+    "file_name": "",
+    "file_url": ""
+  },
+  "constraints": {
+    "photorealistic_only": true,
+    "no_text_template": true,
+    "text_overlay_added": false
+  },
+  "notes": []
+}

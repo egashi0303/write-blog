@@ -1,0 +1,8 @@
+{
+  "folder_url": "https://drive.google.com/drive/u/0/folders/1Wd_sWynNWrOfofWM3uYVzfXS6fgtEvQN",
+  "folder_id": "1Wd_sWynNWrOfofWM3uYVzfXS6fgtEvQN",
+  "folder_policy": "always_create_or_reuse_case_folder_inside_target_folder_then_store_thumbnail_inside_that_case_folder",
+  "download_policy": "download_the_selected_canva_preview_or_export_asset_then_upload_that_file_to_drive",
+  "file_naming_policy": "use_case_or_article_slug_with_original_extension",
+  "local_cache_root": "C:/Users/user/write-blog/outputs/thumbnail_downloads"
+}

@@ -1,0 +1,46 @@
+{
+  "folder_url": "https://drive.google.com/drive/u/0/folders/1Wd_sWynNWrOfofWM3uYVzfXS6fgtEvQN",
+  "folder_id": "1Wd_sWynNWrOfofWM3uYVzfXS6fgtEvQN",
+  "folder_policy": "always_create_or_reuse_case_folder_inside_target_folder_then_store_spreadsheet_inside_it",
+  "existing_case_spreadsheet_policy": "create_or_reuse_case_folder_named_after_case_then_store_reuploaded_xlsx_inside_it_with_same_title",
+  "new_case_spreadsheet_policy": "create_or_reuse_case_folder_named_after_case_then_upload_generated_xlsx_inside_it_with_same_title",
+  "rule": "one_spreadsheet_per_case",
+  "sheet_name": "記事一覧",
+  "columns": [
+    "記事作成日",
+    "案件ID",
+    "案件名",
+    "切り口",
+    "記事タイトル",
+    "記事本文",
+    "サムネイルURL"
+  ],
+  "files": {
+    "CASE-0001": {
+      "case_name": "タイ古式マッサージBANDEE",
+      "spreadsheet_id": "1q4w20pIrCg0qpCchv_pg0Tp0bMCHktbgekmVqSJh8FI",
+      "url": "https://docs.google.com/spreadsheets/d/1q4w20pIrCg0qpCchv_pg0Tp0bMCHktbgekmVqSJh8FI"
+    },
+    "CASE-0002": {
+      "case_name": "オンドラフト",
+      "spreadsheet_id": "1ChEfDNCVJAAkmsUQV-K6LeQ-8o7aZef448vkvJ85HjU",
+      "url": "https://docs.google.com/spreadsheets/d/1ChEfDNCVJAAkmsUQV-K6LeQ-8o7aZef448vkvJ85HjU"
+    },
+    "CASE-0003": {
+      "case_name": "サロンドオズ",
+      "spreadsheet_id": "1f0h_G3zTUwqRfH3MvYoYY76Lq_-j1rzzD7923128FAQ",
+      "url": "https://docs.google.com/spreadsheets/d/1f0h_G3zTUwqRfH3MvYoYY76Lq_-j1rzzD7923128FAQ"
+    },
+    "CASE-0004": {
+      "case_name": "medinaturals",
+      "spreadsheet_id": "1XVtSjSSqlfbHW3lzlF3E6u-R66vSgm62xxAxSUuhx4s",
+      "url": "https://docs.google.com/spreadsheets/d/1XVtSjSSqlfbHW3lzlF3E6u-R66vSgm62xxAxSUuhx4s"
+    },
+    "CASE-0005": {
+      "case_name": "株案件テスト",
+      "spreadsheet_id": "1jA4P7oDwR8MoI9WSS8iibVgmWBU5EwR0G1c4Do5MQgE",
+      "url": "https://docs.google.com/spreadsheets/d/1jA4P7oDwR8MoI9WSS8iibVgmWBU5EwR0G1c4Do5MQgE"
+    }
+  },
+  "case_folder_policy": "folder_name_is_case_name_and_spreadsheet_is_saved_inside_that_folder"
+}

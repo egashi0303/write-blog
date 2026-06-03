@@ -1,0 +1,21 @@
+{
+  "case_id": "",
+  "case_name": "",
+  "created_at": "",
+  "article_type": "",
+  "target_reader": "",
+  "main_keyword": "",
+  "sub_keywords": [],
+  "provided_source_count": 0,
+  "missing_fields": [],
+  "assumptions_used": [],
+  "risk_notes": [],
+  "generated_sections": [],
+  "cta": "",
+  "output_files": {
+    "article": "",
+    "source_brief": "",
+    "warnings": ""
+  },
+  "status": "draft"
+}
