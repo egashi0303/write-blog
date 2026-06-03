@@ -69,3 +69,9 @@ node tools/prepare_thumbnail_batch.mjs outputs/generated_articles/CASE-0001_band
 - `.env.local` はコミットしない
 - `outputs/` は生成物のため Git 管理外にする
 - `config/article_output_spreadsheets.json` と `config/thumbnail_drive_destination.json` には実運用の ID が入るため、公開範囲に応じて確認する
+
+## 公開URL
+
+- GitHub Pages 用の静的ページを `index.html` として用意済み
+- GitHub Actions の Pages デプロイ workflow を追加済み
+- GitHub Pages の公開先を有効化すると、push に追従して更新される
