@@ -154,6 +154,8 @@ export async function prepareThumbnailArtifacts({
         selected_candidate_id: "",
         selected_candidate_preview_url: "",
         selected_candidate_thumbnail_url: "",
+        selected_candidate_local_path: "",
+        selected_image_source: "",
         created_design: {
           id: "",
           title: "",

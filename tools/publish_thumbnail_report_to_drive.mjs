@@ -12,11 +12,12 @@ if (!reportPath || !parentFolderId) {
 
 const report = JSON.parse(await fs.readFile(reportPath, "utf8"));
 const sourceUrl =
+  report.selected_candidate_local_path ||
   report.selected_candidate_thumbnail_url ||
   report.selected_candidate_export_url ||
   report.selected_candidate_preview_url;
 if (!sourceUrl) {
-  throw new Error(`Report does not contain a usable thumbnail URL: ${reportPath}`);
+  throw new Error(`Report does not contain a usable thumbnail source: ${reportPath}`);
 }
 
 const caseLabel = report.case_name || report.case_id || report.source_title || report.variant ||

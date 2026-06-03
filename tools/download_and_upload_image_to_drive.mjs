@@ -1,11 +1,11 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const [, , sourceUrl, parentFolderId, folderName, fileName, outputRootArg] = process.argv;
+const [, , sourceInput, parentFolderId, folderName, fileName, outputRootArg] = process.argv;
 
-if (!sourceUrl || !parentFolderId || !folderName || !fileName) {
+if (!sourceInput || !parentFolderId || !folderName || !fileName) {
   throw new Error(
-    "Usage: node download_and_upload_image_to_drive.mjs <sourceUrl> <parentFolderId> <folderName> <fileName> [outputRoot]",
+    "Usage: node download_and_upload_image_to_drive.mjs <sourceUrlOrPath> <parentFolderId> <folderName> <fileName> [outputRoot]",
   );
 }
 
@@ -62,22 +62,33 @@ if (!tokenResponse.ok) {
 }
 
 const { access_token: accessToken } = await tokenResponse.json();
-const downloadResponse = await fetch(sourceUrl);
-
-if (!downloadResponse.ok) {
-  throw new Error(`Download request failed: ${downloadResponse.status} ${await downloadResponse.text()}`);
-}
-
-const contentType = downloadResponse.headers.get("content-type") ?? "";
-const extension = inferExtension(contentType, sourceUrl);
 const outputRoot = outputRootArg ?? "C:/Users/user/write-blog/outputs/thumbnail_downloads";
 const safeFolderName = sanitizeFileName(folderName);
 const safeFileName = sanitizeFileName(fileName);
 const localFolder = path.join(outputRoot, safeFolderName);
 await fs.mkdir(localFolder, { recursive: true });
 
+let bytes;
+let contentType = "application/octet-stream";
+let extension = ".png";
+
+if (await isReadableLocalFile(sourceInput)) {
+  const resolvedPath = path.resolve(sourceInput);
+  bytes = await fs.readFile(resolvedPath);
+  extension = path.extname(resolvedPath) || ".png";
+  contentType = mimeTypeFromExtension(extension);
+} else {
+  const downloadResponse = await fetch(sourceInput);
+  if (!downloadResponse.ok) {
+    throw new Error(`Download request failed: ${downloadResponse.status} ${await downloadResponse.text()}`);
+  }
+
+  contentType = downloadResponse.headers.get("content-type") ?? "";
+  extension = inferExtension(contentType, sourceInput);
+  bytes = Buffer.from(await downloadResponse.arrayBuffer());
+}
+
 const localFilePath = path.join(localFolder, `${safeFileName}${extension}`);
-const bytes = Buffer.from(await downloadResponse.arrayBuffer());
 await fs.writeFile(localFilePath, bytes);
 
 const driveFolder = await findOrCreateFolder(accessToken, parentFolderId, safeFolderName);
@@ -92,7 +103,7 @@ const uploaded = await uploadBinaryFile(
 console.log(
   JSON.stringify(
     {
-      sourceUrl,
+      sourceInput,
       localFilePath,
       localFileSize: bytes.length,
       driveFolder,
@@ -200,4 +211,30 @@ async function uploadBinaryFile(accessToken, parentFolderId, fileName, content, 
 
 function escapeQueryValue(value) {
   return value.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+}
+
+async function isReadableLocalFile(input) {
+  if (!input) return false;
+  if (/^https?:\/\//i.test(input)) return false;
+  try {
+    const stat = await fs.stat(path.resolve(input));
+    return stat.isFile();
+  } catch {
+    return false;
+  }
+}
+
+function mimeTypeFromExtension(extension) {
+  switch ((extension || "").toLowerCase()) {
+    case ".jpg":
+    case ".jpeg":
+      return "image/jpeg";
+    case ".webp":
+      return "image/webp";
+    case ".gif":
+      return "image/gif";
+    case ".png":
+    default:
+      return "image/png";
+  }
 }
