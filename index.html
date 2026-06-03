@@ -76,19 +76,24 @@
       <section class="section command-section" id="command">
         <h2>記事生成を伝える</h2>
         <p class="section-copy">
-          ここに「記事生成」や追加指示を入力して、次の作業の起点にしてください。
+          ここに「記事生成」を入れると、ローカル版ではそのまま生成から保存まで実行します。
+          公開ページではコマンドを保存して、ローカル実行へ渡します。
         </p>
 
         <form class="command-form" id="command-form">
           <label class="field-label" for="command-input">運用コマンド</label>
           <textarea id="command-input" rows="5" spellcheck="false">記事生成</textarea>
           <div class="command-actions">
-            <button class="button button-primary" type="submit">コピーして準備する</button>
-            <button class="button button-secondary" type="button" id="save-command">保存</button>
+            <button class="button button-primary" type="submit">記事生成を実行</button>
+            <button class="button button-secondary" type="button" id="save-command">コマンド保存</button>
+            <a class="button button-secondary" href="http://127.0.0.1:8787/" target="_blank" rel="noreferrer">
+              ローカル実行を開く
+            </a>
             <button class="button button-secondary" type="button" id="reset-command">
               初期値に戻す
             </button>
           </div>
+          <p class="command-mode" id="command-mode">公開ページでは保存のみ、ローカル版では実行します。</p>
           <p class="command-status" id="command-status">まだ保存されていません。</p>
           <p class="command-last">
             最後の入力:
@@ -115,11 +120,17 @@
       const saveButton = document.getElementById("save-command");
       const resetButton = document.getElementById("reset-command");
       const status = document.getElementById("command-status");
+      const mode = document.getElementById("command-mode");
       const lastCommand = document.getElementById("last-command");
       const defaultCommand = "記事生成";
+      const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
 
       function setStatus(message) {
         status.textContent = message;
+      }
+
+      function setMode(message) {
+        mode.textContent = message;
       }
 
       function setLastCommand(value) {
@@ -147,15 +158,39 @@
         setStatus("保存済みのコマンドを読み込みました。");
       }
 
+      if (isLocalHost) {
+        setMode("ローカル版です。記事生成ボタンで実行から保存まで進みます。");
+      } else {
+        setMode("公開ページです。コマンドを保存し、ローカル実行ページで実行してください。");
+      }
+
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
         const value = persistCommand("コマンドを保存しました。");
 
-        try {
-          await navigator.clipboard.writeText(value);
-          setStatus("コマンドをコピーしました。");
-        } catch {
-          setStatus("コマンドを保存しました。必要なら手動でコピーしてください。");
+        if (isLocalHost) {
+          setStatus("記事生成を開始しています。");
+          try {
+            const response = await fetch("/api/article-generation", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({ command: value }),
+            });
+            const payload = await response.json();
+            if (!response.ok) {
+              throw new Error(payload.error || "article generation failed");
+            }
+            setStatus(payload.message || "記事生成から保存まで完了しました。");
+          } catch (error) {
+            setStatus(`実行に失敗しました: ${error instanceof Error ? error.message : String(error)}`);
+          }
+        } else {
+          try {
+            await navigator.clipboard.writeText(value);
+            setStatus("コマンドをコピーしました。ローカル実行ページで使ってください。");
+          } catch {
+            setStatus("コマンドを保存しました。必要なら手動でコピーしてください。");
+          }
         }
       });
 

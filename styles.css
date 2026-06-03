@@ -225,6 +225,12 @@ textarea:focus,
   margin: 14px 0 0;
 }
 
+.command-mode {
+  margin: 14px 0 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
 .command-last {
   margin: 6px 0 0;
   word-break: break-word;
