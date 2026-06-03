@@ -6,7 +6,7 @@
     <title>Article Production Platform</title>
     <meta
       name="description"
-      content="案件管理シートから記事とサムネを量産し、Driveとスプレッドシートに出力する運用基盤。"
+      content="案件情報から記事生成、サムネ準備、Drive とスプレッドシート保存までをまとめて管理する Article Production Platform."
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -15,28 +15,34 @@
       <section class="hero">
         <div class="hero-copy">
           <p class="eyebrow">Article Production Platform</p>
-          <h1>案件管理から記事とサムネを量産する運用基盤</h1>
+          <h1>案件情報から、記事生成と保存までを一気通貫で回す。</h1>
           <p class="lead">
-            案件情報を共有し、記事を生成し、サムネを作り、Drive とスプレッドシートへ保存する。
-            複数案件を同じ流れで回すための実運用アプリです。
+            案件管理、記事生成、サムネ準備、Drive とスプレッドシート保存をまとめて扱うための
+            運用ページです。
           </p>
           <div class="actions">
-            <a class="button button-primary" href="https://github.com/egashi0303/write-blog" target="_blank" rel="noreferrer">
+            <a
+              class="button button-primary"
+              href="https://github.com/egashi0303/write-blog"
+              target="_blank"
+              rel="noreferrer"
+            >
               GitHub
             </a>
-            <a class="button button-secondary" href="#workflow">運用フロー</a>
+            <a class="button button-secondary" href="#command">記事生成を伝える</a>
           </div>
         </div>
+
         <aside class="hero-panel">
           <div class="panel-card">
-            <span class="panel-label">公開状態</span>
-            <strong>GitHub Pages / Vercel 対応</strong>
-            <p>静的ページとしてそのまま公開できる構成です。</p>
+            <span class="panel-label">公開URL</span>
+            <strong>GitHub Pages</strong>
+            <p>このページはそのまま共有用の入口として使えます。</p>
           </div>
           <div class="panel-card">
             <span class="panel-label">保存先</span>
-            <strong>案件別フォルダ + スプレッドシート</strong>
-            <p>記事本文はローカル、成果物は Drive と Sheets に集約します。</p>
+            <strong>案件名フォルダ + スプレッドシート</strong>
+            <p>記事とサムネは案件ごとのフォルダにまとめて保存します。</p>
           </div>
         </aside>
       </section>
@@ -46,36 +52,121 @@
         <div class="grid">
           <article class="card">
             <span>01</span>
-            <h3>案件の情報を共有する</h3>
-            <p>案件ID、案件名、商品・テーマ、目的、CTA、必須条件、想定読者をまとめます。</p>
+            <h3>案件情報を共有する</h3>
+            <p>案件ID、案件名、テーマ、目的、CTA、想定読者を整理します。</p>
           </article>
           <article class="card">
             <span>02</span>
             <h3>コンセプトを決める</h3>
-            <p>記事の切り口とサムネの方向性を決め、重複を避けます。</p>
+            <p>記事の切り口とサムネの方向性を固めます。</p>
           </article>
           <article class="card">
             <span>03</span>
             <h3>記事を自動生成する</h3>
-            <p>案件ごとに1本ずつ、過去記事との重なりを避けながら生成します。</p>
+            <p>同じ案件でも過去記事と被らない切り口で1本ずつ生成します。</p>
           </article>
           <article class="card">
             <span>04</span>
             <h3>Drive と Sheets に保存する</h3>
-            <p>案件名フォルダの中にスプレッドシートとサムネを保存し、リンクを反映します。</p>
+            <p>案件名フォルダの中に記事とサムネを揃えて保存します。</p>
           </article>
         </div>
       </section>
 
+      <section class="section command-section" id="command">
+        <h2>記事生成を伝える</h2>
+        <p class="section-copy">
+          ここに「記事生成」や追加指示を入力して、次の作業の起点にしてください。
+        </p>
+
+        <form class="command-form" id="command-form">
+          <label class="field-label" for="command-input">運用コマンド</label>
+          <textarea id="command-input" rows="5" spellcheck="false">記事生成</textarea>
+          <div class="command-actions">
+            <button class="button button-primary" type="submit">コピーして準備する</button>
+            <button class="button button-secondary" type="button" id="save-command">保存</button>
+            <button class="button button-secondary" type="button" id="reset-command">
+              初期値に戻す
+            </button>
+          </div>
+          <p class="command-status" id="command-status">まだ保存されていません。</p>
+          <p class="command-last">
+            最後の入力:
+            <span id="last-command">記事生成</span>
+          </p>
+        </form>
+      </section>
+
       <section class="section">
-        <h2>このリポジトリでできること</h2>
+        <h2>このプロジェクトでできること</h2>
         <ul class="list">
           <li>複数案件を同時に回す記事生成</li>
-          <li>案件別スプレッドシートの管理</li>
+          <li>案件別フォルダとスプレッドシートの自動整理</li>
           <li>Canva 優先のサムネ生成とフォールバック</li>
-          <li>Google Drive / Google Sheets への自動保存</li>
+          <li>Google Drive / Google Sheets への保存とリンク反映</li>
         </ul>
       </section>
     </main>
+
+    <script>
+      const storageKey = "article-production-command";
+      const input = document.getElementById("command-input");
+      const form = document.getElementById("command-form");
+      const saveButton = document.getElementById("save-command");
+      const resetButton = document.getElementById("reset-command");
+      const status = document.getElementById("command-status");
+      const lastCommand = document.getElementById("last-command");
+      const defaultCommand = "記事生成";
+
+      function setStatus(message) {
+        status.textContent = message;
+      }
+
+      function setLastCommand(value) {
+        lastCommand.textContent = value || defaultCommand;
+      }
+
+      function normalizeValue() {
+        return input.value.trim() || defaultCommand;
+      }
+
+      function persistCommand(message) {
+        const value = normalizeValue();
+        localStorage.setItem(storageKey, value);
+        setLastCommand(value);
+        if (message) {
+          setStatus(message);
+        }
+        return value;
+      }
+
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        input.value = saved;
+        setLastCommand(saved);
+        setStatus("保存済みのコマンドを読み込みました。");
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const value = persistCommand("コマンドを保存しました。");
+
+        try {
+          await navigator.clipboard.writeText(value);
+          setStatus("コマンドをコピーしました。");
+        } catch {
+          setStatus("コマンドを保存しました。必要なら手動でコピーしてください。");
+        }
+      });
+
+      saveButton.addEventListener("click", () => {
+        persistCommand("コマンドを保存しました。");
+      });
+
+      resetButton.addEventListener("click", () => {
+        input.value = defaultCommand;
+        persistCommand("初期値に戻しました。");
+      });
+    </script>
   </body>
 </html>

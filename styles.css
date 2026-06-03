@@ -2,6 +2,7 @@
   color-scheme: light;
   --bg: #f6f3ee;
   --surface: #ffffff;
+  --surface-soft: #fbfcfe;
   --text: #18222d;
   --muted: #5e6b78;
   --line: #d8e0e8;
@@ -31,6 +32,11 @@ a {
   text-decoration: none;
 }
 
+button,
+textarea {
+  font: inherit;
+}
+
 .page {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
@@ -39,14 +45,15 @@ a {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.9fr);
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.95fr);
   gap: 24px;
   align-items: start;
 }
 
 .hero-copy,
 .hero-panel,
-.card {
+.card,
+.command-form {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -67,13 +74,21 @@ a {
 
 h1 {
   margin: 0;
-  font-size: clamp(2rem, 4vw, 3.6rem);
+  font-size: clamp(2rem, 4vw, 3.4rem);
   line-height: 1.15;
+}
+
+.lead,
+.section-copy,
+.panel-card p,
+.card p,
+.command-status,
+.command-last {
+  color: var(--muted);
 }
 
 .lead {
   margin: 18px 0 0;
-  color: var(--muted);
   font-size: 1.02rem;
   max-width: 56ch;
 }
@@ -94,6 +109,7 @@ h1 {
   border-radius: 10px;
   border: 1px solid var(--line);
   font-weight: 700;
+  cursor: pointer;
 }
 
 .button-primary {
@@ -104,6 +120,7 @@ h1 {
 
 .button-secondary {
   background: var(--accent-soft);
+  color: var(--text);
 }
 
 .hero-panel {
@@ -116,7 +133,7 @@ h1 {
   padding: 18px;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: linear-gradient(180deg, #fff, #fbfcfe);
+  background: linear-gradient(180deg, #fff, var(--surface-soft));
 }
 
 .panel-label,
@@ -138,7 +155,6 @@ h1 {
 .panel-card p,
 .card p {
   margin: 8px 0 0;
-  color: var(--muted);
 }
 
 .section {
@@ -165,6 +181,55 @@ h1 {
   font-size: 1.05rem;
 }
 
+.command-section {
+  display: grid;
+  gap: 12px;
+}
+
+.command-form {
+  padding: 20px;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+textarea {
+  width: 100%;
+  min-height: 124px;
+  resize: vertical;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+}
+
+textarea:focus,
+.button:focus-visible {
+  outline: 2px solid rgba(33, 54, 74, 0.22);
+  outline-offset: 2px;
+}
+
+.command-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.command-status {
+  margin: 14px 0 0;
+}
+
+.command-last {
+  margin: 6px 0 0;
+  word-break: break-word;
+}
+
 .list {
   margin: 0;
   padding: 0 0 0 18px;
@@ -183,5 +248,13 @@ h1 {
 
   .hero-copy {
     padding: 24px;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .command-actions {
+    flex-direction: column;
   }
 }
